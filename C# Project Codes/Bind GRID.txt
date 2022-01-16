@@ -1,0 +1,39 @@
+
+
+
+		private void btn_Refresh_Grid_Click(object sender, EventArgs e)
+        {
+            Con_Open();
+
+            cmb_Course.SelectedIndex = -1;
+            tb_Roll_No.Clear();
+         
+            SqlDataAdapter sda = new SqlDataAdapter(" Select * From Student_Details  ", Con);
+
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+
+            dgv_Student_Details.DataSource = dt;
+            Con_Close();
+        }
+		
+		====================================================================
+		
+		// Generic Function
+		
+		 void Bind_Grid(string Query)
+        {
+            Con_Open();
+
+            dgv_Student_Details.DataSource = "";
+
+            SqlDataAdapter SDA = new SqlDataAdapter(Query, Con);
+
+            DataTable dt = new DataTable();
+
+            SDA.Fill(dt);
+
+            dgv_Student_Details.DataSource = dt;
+
+            Con_Close();
+        }

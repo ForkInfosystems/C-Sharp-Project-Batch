@@ -1,0 +1,56 @@
+
+
+
+	Way 01 =>
+	
+		private void btn_Save_Click(object sender, EventArgs e)
+        {	
+			Con_Open();
+
+            if (tb_Course_ID.Text != "" && tb_Course_Name.Text != "")
+            {
+                SqlDataAdapter sda = new SqlDataAdapter("Insert Into Course_Details Values (" + tb_Course_ID.Text + ", '" + tb_Course_Name.Text + "') ", Con);
+
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+				
+				MessageBox.Show("Record Saved Successfully","Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                Clear_Controls();
+            }
+            else
+            {
+                MessageBox.Show("1st Fill All The Fields!!!","Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            Con_Close();
+		}
+
+	Way 02 =>
+	
+		private void btn_Save_Click(object sender, EventArgs e)
+        {
+            Con_Open();
+
+            if (tb_Subject_ID.Text != "" && tb_Subject_Name.Text != "" && tb_Fees.Text != "")
+            {
+                SqlCommand cmd = new SqlCommand("Insert Into Subject_Fees_Details (Subject_ID,Subject_Name,Fees,New_Batch_Date) Values (@Sub_ID, @Sub_Name, @Fees, @New_Batch_Date) ", Con);
+
+                cmd.Parameters.Add("@Sub_ID", SqlDbType.Int).Value = tb_Subject_ID.Text;
+                cmd.Parameters.Add("@Sub_Name", SqlDbType.NVarChar).Value = tb_Subject_Name.Text;
+                cmd.Parameters.Add("@Fees", SqlDbType.Decimal).Value = tb_Fees.Text;
+                cmd.Parameters.Add("@New_Batch_Date", SqlDbType.Date).Value = dtp_Batch_Start_Date.Value.Date;
+
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Record Saved Successfully","Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				
+                Clear_Controls();
+            }
+            else
+            {
+                MessageBox.Show("1st Fill All The Fields!!!","Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            Con_Close();
+        }

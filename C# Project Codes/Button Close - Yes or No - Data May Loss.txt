@@ -1,0 +1,16 @@
+
+
+		private void btn_Close_Click(object sender, EventArgs e)
+        {
+            DialogResult Res = System.Windows.Forms.DialogResult.Yes;
+
+            if (tb_Connection_Deposite_Amount.Text != "" || tb_Connection_Installation_Amount.Text != "" || cmb_Connection_Type.Text != "")
+            {
+                Res = MessageBox.Show("Are You Sure Data Entered Will Be Lost?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            }
+
+            if (Res == System.Windows.Forms.DialogResult.Yes)
+            {
+                this.Close();
+            }
+        }

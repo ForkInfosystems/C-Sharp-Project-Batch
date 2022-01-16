@@ -1,0 +1,41 @@
+
+		// 1St ComboBox Bind To DB table Column
+
+		void Bind_ComboBox()
+        {
+            Con_Open();
+
+            cmb_Subject.Items.Clear();
+
+            SqlCommand Cmd = new SqlCommand("Select Distinct(Subject_Name) From Subject_Fees_Details", Con);
+
+            SqlDataReader obj = Cmd.ExecuteReader();
+
+            while (obj.Read())
+            {
+                cmb_Subject.Items.Add(obj.GetString(obj.GetOrdinal("Subject_Name")));
+            }
+
+            obj.Dispose();
+            Con_Close();
+        }
+		
+		
+		/// Dependent TextBox
+		
+		
+        private void cmb_Subject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Con_Open();
+
+            SqlCommand Cmd = new SqlCommand("Select Fees From Subject_Fees_Details where Subject_Name = '" + cmb_Subject.Text + "' ", Con);
+
+            var obj = Cmd.ExecuteReader();
+
+            if (obj.Read())
+            {
+                tb_Fees.Text = (obj["Fees"].ToString());
+            }
+
+            Con_Close();
+        }

@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace Student_Mgt_System
+{
+    public partial class Picture_Box_Use : Form
+    {
+        SqlConnection Con = new SqlConnection(@"Data Source=.\SQLEXPRESS;Initial Catalog=Student_Mgt_System_DB;Integrated Security=True");
+
+        public Picture_Box_Use()
+        {
+            InitializeComponent();
+        }
+        
+        void Con_Open()
+        {
+            if(Con.State == ConnectionState.Closed)
+            {
+                Con.Open();
+            }
+        }
+
+        void Con_Close()
+        {
+            if (Con.State == ConnectionState.Open)
+            {
+                Con.Close();
+            }
+        }
+
+        private void btn_Browse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.Filter = "Image Files(*.jpg; *.jpeg;)| *.jpg; *.jpeg;";
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                pb_Uploaded_Image.Image = new Bitmap(OFD.FileName);
+            }
+        }
+
+        private void btn_Upload_Click(object sender, EventArgs e)
+        {
+            Con_Open();
+
+            ImageConverter IC = new ImageConverter();
+
+            byte[] imgArray = (byte[])IC.ConvertTo(pb_Uploaded_Image.Image, typeof(byte[]));
+
+            SqlDataAdapter sda = new SqlDataAdapter("Insert Into Images (Image) Values ('" + imgArray  + "') ", Con);
+
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+
+            MessageBox.Show("Image Uploaded Successfully");
+
+            Con_Close();
+        }
+
+        private void btn_Show_Click(object sender, EventArgs e)
+        {
+            Con_Open();
+
+            SqlCommand Cmd = new SqlCommand("Select Image From Images where Image_ID = " + tb_Image_Id.Text + " ", Con);
+
+            SqlDataAdapter da = new SqlDataAdapter(Cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                MemoryStream ms = new MemoryStream((byte[])ds.Tables[0].Rows[0]["Image"]);
+                pb_Loaded_Image.Image = new Bitmap(ms);
+
+            }
+            else
+            {
+                MessageBox.Show("Invalid Image ID!!!");
+                tb_Image_Id.Clear();
+            }
+
+            Con_Close();
+        }
+    }
+}

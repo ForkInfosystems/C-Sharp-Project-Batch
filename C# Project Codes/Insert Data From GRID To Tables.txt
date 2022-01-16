@@ -1,0 +1,14 @@
+
+		// Code For
+		// 2 Row GRID
+		// 3 Column Table
+		
+		
+		
+		foreach (DataGridViewRow Row in dgv_Subjects.Rows)
+		{
+			Cmd.Connection = Con;
+			Cmd.CommandText = "Insert Into Admitted_Course_Details Values (" + ID + ",'" + Row.Cells[0].Value + "'," + Row.Cells[1].Value + ") ";
+			Cmd.ExecuteNonQuery();
+		}
+		

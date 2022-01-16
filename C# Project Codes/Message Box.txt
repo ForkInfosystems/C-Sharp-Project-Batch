@@ -1,0 +1,11 @@
+
+
+
+	MessageBox.Show("Employee Added Successfully","Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+	MessageBox.Show("1st Fill All The Fields!!!", "Fill Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+ 
+ 
+	
+	

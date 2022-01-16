@@ -1,0 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Student_Mgt_System
+{
+    class Global_Vars
+    {
+        public static string Uname = "User";
+        public static int URole = 0;
+
+        public static int Admission_ID = 0;
+    }
+}

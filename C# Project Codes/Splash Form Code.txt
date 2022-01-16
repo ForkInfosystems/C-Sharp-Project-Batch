@@ -1,0 +1,104 @@
+
+// simple splash form code
+
+	public partial class Splash_Screen : Form
+    {
+        public Splash_Screen_Water_Supply_Application()
+        {
+            InitializeComponent();
+        }
+
+        Timer Tmr;
+
+        private void Splash_Screen_Water_Supply_Application_Load(object sender, EventArgs e)
+        {
+            Tmr = new Timer();
+
+            Tmr.Interval = 5000;
+
+            Tmr.Start();
+
+            Tmr.Tick += tmr_Tick;
+        }
+
+        void tmr_Tick(object sender, EventArgs e)
+        {
+            Tmr.Stop();
+
+            frm_Login Obj = new frm_Login();
+
+            Obj.Show();
+            this.Hide();
+        }
+    }
+	
+====================================================================================================================
+
+// Splash Form With Progress Bar 
+
+// Timer 1 => Enabled True, Interval 20
+// Timer 2 => Enabled True, Interval 5000
+// Timer 3 => Enabled False, Interval 100
+
+
+	public partial class Splash_Screen_Titan_Shop_App : Form
+    {
+        public Splash_Screen_Titan_Shop_App()
+        {
+            InitializeComponent();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            pb_Splash.PerformStep();
+
+            if (pb_Splash.Value <= 10)
+            {
+                lbl_Note.Text =  "Loading Application Please Wait ...";
+            }
+            if (pb_Splash.Value >= 10 && pb_Splash.Value <= 20)
+            {
+                lbl_Note.Text =  "Loading Forms Please Wait ...";
+            }
+            if (pb_Splash.Value >= 20 && pb_Splash.Value <= 50)
+            {
+                lbl_Note.Text =  "Starting Application Please Wait ...";
+            }
+            if (pb_Splash.Value >= 50 && pb_Splash.Value <= 75)
+            {
+                lbl_Note.Text = "Loading Database Please Wait ...";
+            }
+            if (pb_Splash.Value >= 75 && pb_Splash.Value <= 85)
+            {
+                lbl_Note.Text =  "Connecting to Database Please Wait ...";
+            }
+            if (pb_Splash.Value >= 85 && pb_Splash.Value <= 100)
+            {
+                lbl_Note.Text = "Login Form Is Opening Please Wait ...";
+            }
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            timer1.Enabled = false;
+            timer2.Enabled = false;
+            System.Threading.Thread.Sleep(200);
+            timer3.Enabled = true;
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            this.Opacity -= 0.05;
+            if (this.Opacity <= 0)
+            {
+                timer3.Enabled = false;
+
+                Windows_Forms.frm_Login_Form Obj = new Windows_Forms.frm_Login_Form();
+
+                Obj.Show();
+
+                this.Hide();
+            }
+        }
+    }
+

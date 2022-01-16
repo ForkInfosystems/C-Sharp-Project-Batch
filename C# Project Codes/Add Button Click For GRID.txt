@@ -1,0 +1,28 @@
+
+	/// Code for Only 2 Row GRID Use Accordingly
+
+        private void btn_Add_Click(object sender, EventArgs e)
+        {
+            int flag = -1;
+
+            for (int i = 0; i <= dgv_Subjects.Rows.Count - 1; i++ )
+            {
+                if (Convert.ToString(dgv_Subjects.Rows[i].Cells[0].Value) == cmb_Subject.Text)
+                {
+                    flag = 0;
+                }
+            }
+
+            if(flag == 0)
+            {
+                 MessageBox.Show("Course Already Added");
+            }
+            else
+            {
+                dgv_Subjects.Rows.Add(cmb_Subject.Text, tb_Fees.Text);
+
+                double Tot_Fees = Convert.ToDouble(tb_Total_Fees.Text) + Convert.ToDouble(tb_Fees.Text);
+
+                tb_Total_Fees.Text = Convert.ToString(Tot_Fees);
+            }
+        }

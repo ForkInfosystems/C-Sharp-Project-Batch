@@ -1,0 +1,92 @@
+
+
+
+		SqlConnection Con = new SqlConnection(@"Data Source=.\SQLEXPRESS;Initial Catalog=Student_Mgt_System_DB;Integrated Security=True");
+
+        void Con_Open()
+        {
+            if (Con.State == ConnectionState.Closed)
+            {
+                Con.Open();
+            }
+        }
+
+        void Con_Close()
+        {
+            if (Con.State == ConnectionState.Open)
+            {
+                Con.Close();
+            }
+        }
+		
+		
+		  int Auto_Incr()
+        {
+            int Cnt = 0;
+            Con_Open();
+
+            SqlCommand Cmd = new SqlCommand("Select Count(Roll_No) from Student_Details", Con);
+
+            Cnt = Convert.ToInt32(Cmd.ExecuteScalar());
+            Cmd.Dispose();
+
+            if (Cnt > 0)
+            {
+                Cmd.Connection = Con;
+                Cmd.CommandText = "Select Max(Roll_No) from Student_Details";
+
+                Cnt = Convert.ToInt32(Cmd.ExecuteScalar());
+                Cnt = Cnt + 1;
+            }
+            else
+            {
+                Cnt = 101;
+            }
+
+            Con_Close();
+
+            return Cnt;
+        }
+		
+		
+===============================================================================================================================================
+
+
+
+
+
+
+        int Auto_Incr()
+        {
+            int Cnt = 0;
+            SqlCommand Cmd = new SqlCommand();
+
+            Con_Open();
+
+            Cmd.CommandText = "Select Count(Course_ID) from Course_Details";
+            Cmd.Connection = Con;
+
+            Cnt = Convert.ToInt32(Cmd.ExecuteScalar());
+
+            Cmd.Dispose();
+
+            if (Cnt > 0)
+            {
+                Cnt = Cnt + 101;
+            }
+            else
+            {
+                Cnt = 101;
+            }
+
+            Con_Close();
+            return Cnt;
+        }
+
+            
+			
+		// Function Call will be at Form Load or After Clear_Controls =>
+		
+			tb_Course_ID.Text = Convert.ToString(Auto_Incr());
+            tb_Course_Name.Focus();
+
